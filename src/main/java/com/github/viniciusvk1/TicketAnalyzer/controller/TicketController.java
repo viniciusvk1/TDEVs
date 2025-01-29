@@ -1,13 +1,13 @@
 package com.github.viniciusvk1.TicketAnalyzer.controller;
 
 import com.github.viniciusvk1.TicketAnalyzer.model.Ticket;
+import com.github.viniciusvk1.TicketAnalyzer.service.ExcelService;
 import com.github.viniciusvk1.TicketAnalyzer.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +17,9 @@ public class TicketController {
 
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private ExcelService excelService;
 
     @GetMapping("/status/{status}")
     public List<Ticket> getTicketsByStatus(@PathVariable String status) {
@@ -36,5 +39,16 @@ public class TicketController {
     @GetMapping("/prioridade/{prioridade}")
     public List<Ticket> getTicketsByPriority(@PathVariable String prioridade) {
         return ticketService.getTicketsByPriority(prioridade);
+    }
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            excelService.readExcelFile(file);
+            return "File uploaded successfully!";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Failed to upload file!";
+        }
     }
 }
