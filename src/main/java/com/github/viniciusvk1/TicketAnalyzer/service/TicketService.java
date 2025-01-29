@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +19,7 @@ public class TicketService {
     public List<Ticket> getTicketsByStatus(String status) {
         return ticketRepository.findByStatusTicket(status);
     }
+
     public Map<String, Long> getTicketsByDeveloperStatusCount(String nomeDesenvolvedor) {
         List<Ticket> tickets = ticketRepository.findByNomeDesenvolvedor(nomeDesenvolvedor);
         return tickets.stream()
@@ -30,5 +32,9 @@ public class TicketService {
 
     public List<Ticket> getTicketsByPriority(String prioridade) {
         return ticketRepository.findByPrioridade(prioridade);
+    }
+
+    public Optional<Ticket> getTicketByTicket(String ticket) {
+        return ticketRepository.findByTicket(ticket);
     }
 }
