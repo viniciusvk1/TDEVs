@@ -25,17 +25,18 @@ public class ExcelService {
         Sheet sheet = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = sheet.iterator();
 
-        // Pular o cabeçalho
         if (rowIterator.hasNext()) {
             rowIterator.next();
         }
 
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-            Ticket ticket = new Ticket();
+            String ticketId = getCellValueAsString(row.getCell(1));
 
+            Ticket ticket = ticketRepository.findByTicket(ticketId).orElse(new Ticket());
+
+            ticket.setTicket(ticketId);
             ticket.setStatusTicket(getCellValueAsString(row.getCell(0)));
-            ticket.setTicket(getCellValueAsString(row.getCell(1)));
             ticket.setDescricaoTicket(getCellValueAsString(row.getCell(2)));
             ticket.setTipoAssociacao(getCellValueAsString(row.getCell(3)));
             ticket.setIdentificacaoAssociacao(getCellValueAsString(row.getCell(4)));

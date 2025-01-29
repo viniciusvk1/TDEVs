@@ -5,6 +5,7 @@ import com.github.viniciusvk1.TicketAnalyzer.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,5 +37,22 @@ public class TicketService {
 
     public Optional<Ticket> getTicketByTicket(String ticket) {
         return ticketRepository.findByTicket(ticket);
+    }
+
+    public Map<String, Long> countTicketsByStatus() {
+        List<Object[]> results = ticketRepository.countTicketsByStatus();
+        Map<String, Long> statusCountMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            String status = (String) result[0];
+            Long count = (Long) result[1];
+            statusCountMap.put(status, count);
+        }
+
+        return statusCountMap;
+    }
+
+    public List<Ticket> getTicketsByAvaliadorExcludingCancelledAndCompleted(String nomeAvaliador) {
+        return ticketRepository.findByAvaliadorTecnicoExcludingCancelledAndCompleted(nomeAvaliador);
     }
 }

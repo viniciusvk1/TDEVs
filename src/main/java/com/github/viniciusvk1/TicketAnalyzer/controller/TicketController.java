@@ -48,6 +48,16 @@ public class TicketController {
         return ticketService.getTicketsByPriority(prioridade);
     }
 
+    @GetMapping("/contagem-por-status")
+    public Map<String, Long> countTicketsByStatus() {
+        return ticketService.countTicketsByStatus();
+    }
+
+    @GetMapping("/avaliador/{nomeAvaliador}/tdevs-ativas")
+    public List<Ticket> getActiveTDevsByAvaliador(@PathVariable String nomeAvaliador) {
+        return ticketService.getTicketsByAvaliadorExcludingCancelledAndCompleted(nomeAvaliador);
+    }
+
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try {
