@@ -55,4 +55,9 @@ public class TicketService {
     public List<Ticket> getTicketsByAvaliadorExcludingCancelledAndCompleted(String nomeAvaliador) {
         return ticketRepository.findByAvaliadorTecnicoExcludingCancelledAndCompleted(nomeAvaliador);
     }
+
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();  // Usando o repositório para buscar todos os tickets
+    }
+
 }

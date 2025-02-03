@@ -23,4 +23,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     @Query("SELECT t FROM Ticket t WHERE t.nomeAvaliadorTecnico = :nomeAvaliador AND t.statusTicket NOT IN ('Cancelada', 'Concluída')")
     List<Ticket> findByAvaliadorTecnicoExcludingCancelledAndCompleted(@Param("nomeAvaliador") String nomeAvaliador);
+
 }
